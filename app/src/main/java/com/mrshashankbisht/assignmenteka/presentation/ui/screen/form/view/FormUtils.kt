@@ -1,6 +1,7 @@
 package com.mrshashankbisht.assignmenteka.presentation.ui.screen.form.view
 
 import android.widget.DatePicker
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,7 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.traceEventEnd
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
@@ -31,7 +35,7 @@ fun DatePickerDialog(onDateSelected: (String) -> Unit, onDismissRequest: () -> U
 
     Dialog(
         onDismissRequest = onDismissRequest,
-        properties = DialogProperties(dismissOnClickOutside = false)
+        properties = DialogProperties(dismissOnClickOutside = true)
     ){
         AndroidView(
             { context ->
@@ -42,7 +46,7 @@ fun DatePickerDialog(onDateSelected: (String) -> Unit, onDismissRequest: () -> U
                     }
                 }
             },
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp).background(Color.White, RectangleShape)
         )
     }
 }

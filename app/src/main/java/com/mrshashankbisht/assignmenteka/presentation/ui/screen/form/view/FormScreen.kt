@@ -75,11 +75,13 @@ fun FormScreen(modifier: Modifier = Modifier, stateFlow: StateFlow<FormState>, f
                 },
                 label = { Text("Date of Birth") },
                 readOnly = true,
+                enabled = false,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
+                    .clickable(true)
+                    {
                         showDatePicker = true
-                   },
+                    }
             )
             Spacer(modifier = Modifier.height(8.dp))
             TextField(value = state.address?: "null", onValueChange = { formScreenEvent.saveAddress(it) }, label = {
