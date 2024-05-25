@@ -6,9 +6,10 @@ import com.mrshashankbisht.assignmenteka.presentation.ui.screen.form.state.FormS
  * Created by Shashank on 24-05-2024
  */
 interface FormEvent {
-    fun saveData(formState: FormState) : Boolean
+    fun saveData(formState: FormState)
     fun saveName(name: String)
-    fun saveAge(age: Int)
+    fun saveAge(age: Int?)
     fun saveAddress(address: String)
     fun saveDob(dob: String)
+    fun getAllData()
 }

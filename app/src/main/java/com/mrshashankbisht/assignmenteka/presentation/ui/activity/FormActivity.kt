@@ -28,16 +28,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.mrshashankbisht.assignmenteka.presentation.ui.screen.form.view.FormScreen
+import com.mrshashankbisht.assignmenteka.presentation.ui.screen.form.viewmodel.FormViewModel
 import com.mrshashankbisht.assignmenteka.presentation.ui.theme.AssignmentEkaTheme
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Calendar
 
+@AndroidEntryPoint
 class FormActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val viewModel: FormViewModel = hiltViewModel()
+            enableEdgeToEdge()
             AssignmentEkaTheme {
-
+                FormScreen(stateFlow = viewModel.state, formScreenEvent = viewModel)
             }
         }
     }

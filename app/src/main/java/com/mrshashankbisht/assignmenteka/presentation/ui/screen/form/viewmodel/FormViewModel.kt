@@ -1,31 +1,77 @@
 package com.mrshashankbisht.assignmenteka.presentation.ui.screen.form.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.mrshashankbisht.assignmenteka.data.Model.FormDataModel
+import com.mrshashankbisht.assignmenteka.domain.FormRepository
 import com.mrshashankbisht.assignmenteka.presentation.ui.screen.form.event.FormEvent
 import com.mrshashankbisht.assignmenteka.presentation.ui.screen.form.state.FormState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Created by Shashank on 24-05-2024
  */
-class FormViewModel : ViewModel(), FormEvent {
+@HiltViewModel
+class FormViewModel @Inject constructor(val formRepository: FormRepository) : ViewModel(), FormEvent {
 
-    override fun saveData(formState: FormState): Boolean {
-        TODO("Not yet implemented")
+    private val _state = MutableStateFlow(FormState())
+    val state = _state.asStateFlow()
+    override fun saveData(formState: FormState) {
+        viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO).launch {
+                val id = formRepository.saveForm(formState.toFormDataModel())
+                _state.update {
+                    val list = it.users
+                    list.add(FormDataModel(name = formState.name, age = formState.age, address = formState.address?: "", dob = formState.dob?: ""))
+                    it.copy(name = "", age = 0, address = "", dob = "", users = list)
+                }
+            }
+        }
     }
 
     override fun saveName(name: String) {
-        TODO("Not yet implemented")
+        _state.update {
+            it.copy(name = name)
+        }
     }
 
-    override fun saveAge(age: Int) {
-        TODO("Not yet implemented")
+    override fun saveAge(age: Int?) {
+        if(age != null) {
+            _state.update {
+                it.copy(age = age)
+            }
+        }
     }
 
     override fun saveAddress(address: String) {
-        TODO("Not yet implemented")
+        _state.update {
+            it.copy(address = address)
+        }
     }
 
     override fun saveDob(dob: String) {
-        TODO("Not yet implemented")
+        _state.update {
+            it.copy(dob = dob)
+        }
+    }
+
+    override fun getAllData() {
+        viewModelScope.launch {
+            CoroutineScope(Dispatchers.IO).launch {
+                val data = formRepository.getAllForm()
+                _state.update {
+                    val list = it.users
+                    list.addAll(data.toList())
+                    it.copy(name = "", age = 0, address = "", dob = "", users = list)
+                }
+            }
+        }
     }
 }
