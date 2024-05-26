@@ -61,6 +61,6 @@ fun UserItem(user: FormDataModel, onClick: (FormDataModel) -> Unit) {
     ) {
         Text(text = "Name: ${user.name}")
         Text(text = "Age: ${user.age}")
-        Text(text = "Email: ${user.dob}")
+        Text(text = "DOB: ${user.dob}")
     }
 }

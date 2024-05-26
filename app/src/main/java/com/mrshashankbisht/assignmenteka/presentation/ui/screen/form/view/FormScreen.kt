@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun FormScreen(modifier: Modifier = Modifier, stateFlow: StateFlow<FormState>, formScreenEvent: FormEvent) {
 
     val state by stateFlow.collectAsState()
-    var showDatePicker by remember { mutableStateOf(true) }
+    var showDatePicker by remember { mutableStateOf(false) }
     val context = LocalContext.current
     formScreenEvent.getAllData()
     Scaffold( modifier = Modifier.fillMaxSize() ) {
